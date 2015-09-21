@@ -1,31 +1,37 @@
+# WARNING: THIS FILE IS MAINTAINED BY CFENGINE!! DO NOT EDIT BY HAND
+# CONTACT itsupport@physics.ox.ac.uk IF YOU WOULD LIKE THIS CHANGED
 DIST=''
-test  -f /etc/lsb-release && grep precise /etc/lsb-release >/dev/null && DIST=ubuntu_precise
+test  -f /etc/lsb-release && . /etc/lsb-release >/dev/null && test  "$DISTRIB_ID" == Ubuntu  && DIST="ubuntu_${DISTRIB_CODENAME}"
 test  -f /etc/issue && grep "Scientific Linux release 6" /etc/issue > /dev/null && DIST=el6
+test  -f /etc/issue && grep "CentOS Linux 6" /etc/issue > /dev/null && DIST=el6
 test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 6" /etc/issue > /dev/null && DIST=el6
+test  -f /etc/issue && grep "Scientific Linux release 7" /etc/issue > /dev/null && DIST=el7
+test  -f /etc/issue && grep "CentOS Linux 7" /etc/issue > /dev/null && DIST=el7
+test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 7" /etc/issue > /dev/null && DIST=el7
 export DIST
 
-#prepends to module path, so use in reverse order
-if [ -d /network/software/modules ]; then
-    module use /network/software/modules
-elif [ -d /cvmfs/physics.ox.ac.uk/software/modules ]; then
-    module use /cvmfs/physics.ox.ac.uk/software/modules
+NETBASE=/network/software
+CVMFSBASE=/cvmfs/physics.ox.ac.uk/software
+
+#prepends to module path with module use, so use in reverse order
+if [ -d "${NETBASE}/modules" ]; then
+    module use "${NETBASE}/modules"
+elif [ -d "${CVMFSBASE}/modules" ]; then
+    module use "${CVMFSBASE}/modules"
 fi
 
-if [[ -n $DIST ]]; then
-   ( test -d /network/software/$DIST/arc/modules-tested || test -d /cvmfs/physics.ox.ac.uk/software/$DIST/arc/modules-tested )  &&  module load otheros/$DIST-arc-tested
-fi
+#module load is set to append to path (I chose this)
+( test -d "${NETBASE}/modules" || test -d "${CVMFSBASE}/modules" ) &&  module load "otheros/${DIST}"
+( test -d "${NETBASE}/modules" || test -d "${CVMFSBASE}/modules" ) &&  module load otheros/generic-oxphys
 
-( test -d /network/software/modules || test -d /cvmfs/physics.ox.ac.uk/software/modules ) &&  module load otheros/generic-oxphys
-( test -d /network/software/modules || test -d /cvmfs/physics.ox.ac.uk/software/modules ) &&  module load otheros/generic-arc-tested
-
-if [[ -n $DIST ]]; then
-#   export MODULEPATH=$MODULEPATH:/local/software/modules:/network/software/$DIST/modules:/network/software/modules
-  if [ -d /network/software/$DIST/modules ] ; then
-       module use /network/software/$DIST/modules
-  elif [ -d /cvmfs/physics.ox.ac.uk/software/$DIST/modules ] ; then
-       module use /cvmfs/physics.ox.ac.uk/software/$DIST/modules
-  fi
+if [ -n "$DIST" ]; then
+   ( test -d "${NETBASE}/$DIST/arc-modules/modules-tested" || test -d "${CVMFSBASE}/$DIST/arc-modules/modules-tested" )  &&  module load otheros/$DIST-arc-tested
 fi
+( test -d "${NETBASE}/modules" || test -d "${CVMFSBASE}/modules" ) &&  module load otheros/generic-arc-tested
+
+( test -d "${NETBASE}/$DIST/arc-modules/modules" || test -d "${CVMFSBASE}/$DIST/arc-modules/modules" )  &&  module load otheros/$DIST-arc
+( test -d "${NETBASE}/modules" || test -d "${CVMFSBASE}/modules" ) &&  module load otheros/generic-arc
+
 test -d /local/software/modules && module use /local/software/modules
 
 
