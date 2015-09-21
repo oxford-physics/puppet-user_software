@@ -3,10 +3,10 @@
 DIST=''
 test  -f /etc/lsb-release && . /etc/lsb-release >/dev/null && test  "$DISTRIB_ID" == Ubuntu  && DIST="ubuntu_${DISTRIB_CODENAME}"
 test  -f /etc/issue && grep "Scientific Linux release 6" /etc/issue > /dev/null && DIST=el6
-test  -f /etc/issue && grep "CentOS Linux 6" /etc/issue > /dev/null && DIST=el6
+test  -f /etc/issue && grep "CentOS release 6" /etc/issue > /dev/null && DIST=el6
 test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 6" /etc/issue > /dev/null && DIST=el6
 test  -f /etc/issue && grep "Scientific Linux release 7" /etc/issue > /dev/null && DIST=el7
-test  -f /etc/issue && grep "CentOS Linux 7" /etc/issue > /dev/null && DIST=el7
+test  -f /etc/issue && grep "CentOS release 7" /etc/issue > /dev/null && DIST=el7
 test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 7" /etc/issue > /dev/null && DIST=el7
 export DIST
 

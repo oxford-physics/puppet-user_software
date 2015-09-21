@@ -7,10 +7,10 @@ endif
 test  -f /etc/lsb-release &&  grep precise /etc/lsb-release >/dev/null && set DIST=ubuntu_precise
 test  -f /etc/lsb-release &&  grep trusty /etc/lsb-release >/dev/null && set DIST=ubuntu_trusty
 test  -f /etc/issue &&  grep "Scientific Linux release 6" /etc/issue > /dev/null && set DIST=el6
-test  -f /etc/issue &&  grep "CentOS Linux 6" /etc/issue > /dev/null && set DIST=el6
+test  -f /etc/issue &&  grep "CentOS release 6" /etc/issue > /dev/null && set DIST=el6
 test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 6" /etc/issue > /dev/null && set DIST=el6
 test  -f /etc/issue &&  grep "Scientific Linux release 7" /etc/issue > /dev/null && set DIST=el7
-test  -f /etc/issue &&  grep "CentOS Linux 7" /etc/issue > /dev/null && set DIST=el7
+test  -f /etc/issue &&  grep "CentOS release 7" /etc/issue > /dev/null && set DIST=el7
 test  -f /etc/issue && grep "Red Hat Enterprise Linux Server release 7" /etc/issue > /dev/null && set DIST=el7
 setenv DIST $DIST
 #module use prepends to module path, so use in reverse order

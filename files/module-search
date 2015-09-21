@@ -1,0 +1,15 @@
+#!/bin/bash
+if ! [[ $1 ]] || [ $1 == "-h" ] || [ $1 == "--help" ] ; then
+   echo
+   echo -e "usage:\n\t $0 {searchstring}"
+   echo 
+   echo This searches the list of environment modules for the search string
+   echo that you provide as the only argument.  The software can then be 
+   echo loaded into your current environment by typing:
+   echo
+   echo -e "\tmodule load software/[version]"
+   echo 
+
+   exit 1
+fi
+module -i -t avail 2>&1 > /dev/null| grep "${1}"
