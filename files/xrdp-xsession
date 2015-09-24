@@ -1,0 +1,24 @@
+#!/bin/bash
+#THIS FILE IS CONTROLLED BY CFENGINE#
+
+#Use this to determine a sensible window manager for xrdp
+#Use it like this:
+#echo exec xrdp-xsession > $HOME/.xsession
+session=x-session-manager
+which x-session-manager >/dev/null || session="gnome-session"
+if [ -f /etc/lsb-release ]; then
+  . /etc/lsb-release
+  if [ $DISTRIB_CODENAME = precise ];then
+    which gnome-session > /dev/null && session="gnome-session --session=ubuntu2d"
+  elif [  $DISTRIB_CODENAME = trusty ];then   
+   which xfce4-session  > /dev/null
+   if [ $? ] ; then
+     export DESKTOP_SESSION="gnome-fallback"
+     export XDG_CURRENT_DESKTOP="Unity"
+     #before gnome-session line:
+     gnome-session --session=gnome-flashback --disable-acceleration-check
+   fi
+  fi
+fi
+setxkbmap -model pc105 -layout gb
+exec $session
