@@ -1,5 +1,5 @@
 #!/bin/bash
-#THIS FILE IS CONTROLLED BY CFENGINE#
+#THIS FILE IS CONTROLLED BY PUPPET#
 
 #Use this to determine a sensible window manager for xrdp
 #Use it like this:
@@ -19,6 +19,8 @@ if [ -f /etc/lsb-release ]; then
      gnome-session --session=gnome-flashback --disable-acceleration-check
    fi
   fi
+elif [ -f /etc/redhat-release ]; then
+   which xsession-manager || session=startkde  
 fi
 setxkbmap -model pc105 -layout gb
 exec $session
